@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"po_go/conf"
+	"po_go/entity"
 	"po_go/utils"
 
 	"github.com/jinzhu/gorm"
@@ -37,6 +38,7 @@ func init() {
 	logger := utils.Log()
 	Db.SetLogger(logger)
 	Db.LogMode(true)
+	Db.AutoMigrate(&entity.Blog{}, &entity.Comment{}, &entity.Member{}, &entity.Work{})
 	logger.Info("mysql connect success")
 
 }
