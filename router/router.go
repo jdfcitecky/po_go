@@ -28,8 +28,8 @@ func InitRouter() *gin.Engine {
 }
 
 func register(router *gin.Engine) {
-	// //api
-	// //查找博主
+	//api
+	//查找博主
 	// router.POST("/blogger", api.FindBlogger)
 	// //查找博客类型
 	// router.POST("/blog/type", api.FindType)
