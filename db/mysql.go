@@ -38,7 +38,7 @@ func init() {
 	logger := utils.Log()
 	Db.SetLogger(logger)
 	Db.LogMode(true)
-	Db.AutoMigrate(&entity.Blog{}, &entity.Comment{}, &entity.Member{}, &entity.Work{})
+	Db.AutoMigrate(&entity.Blog{}, &entity.Member{}, &entity.Work{}, &entity.Comment{})
 	logger.Info("mysql connect success")
 
 }

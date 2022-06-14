@@ -15,8 +15,9 @@ func (Comment) TableName() string {
 
 func (comment *Comment) FindCommentsListByWorkID(workID int) []Comment {
 	comments := make([]Comment, 0)
-	Db.Table("comment c").Select("c.*, m.username as username").
+	Db.Table("comment c").Select("c.*, m.email as email").
 		Joins("left join member m on c.member_id = m.id").
+		Where("c.is_new = true").
 		Order("created_at asc").
 		Find(&comments)
 
@@ -35,7 +36,7 @@ func (comment *Comment) Insert() *gorm.DB {
 }
 
 func (comment *Comment) UpdateStatus() *gorm.DB {
-	return Db.Model(comment).Where("id = ? ", comment.ID).Update("status", 1)
+	return Db.Model(comment).Where("id = ? ", comment.ID).Update("is_new", true)
 }
 
 func (comment *Comment) DeleteComment() *gorm.DB {

@@ -16,7 +16,7 @@ func (Member) TableName() string {
 // find a member by username
 func (member *Member) Login() (m *Member) {
 	m = new(Member)
-	Db.Model(member).Where("username = ? ", member.Username).First(m)
+	Db.Model(member).Where("email = ? ", member.Email).First(m)
 	return
 }
 
@@ -30,7 +30,7 @@ func (member *Member) FindMemberByID(memberID int) (m *Member) {
 // find a manager
 func (member *Member) Find() (m *Member) {
 	m = new(Member)
-	Db.Model(member).Where("IsManager = 1").First(m)
+	Db.Model(member).Where("IsManager = true").First(m)
 	return
 }
 
