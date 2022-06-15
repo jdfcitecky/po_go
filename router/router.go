@@ -1,6 +1,8 @@
 package router
 
 import (
+	"po_go/admin"
+	"po_go/api"
 	"po_go/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -28,40 +30,29 @@ func InitRouter() *gin.Engine {
 }
 
 func register(router *gin.Engine) {
-	//api
-	//查找博主
-	// router.POST("/blogger", api.FindBlogger)
-	// //查找博客类型
-	// router.POST("/blog/type", api.FindType)
-	// //查询博客列表
-	// router.POST("/blog/list", api.BlogList)
-	// //查询博客内容
-	// router.POST("/blog/show", api.FindBlog)
-	// //提交评论
-	// router.POST("/blog/comment", api.Comment)
+	//Find manager
+	router.POST("/manager", api.FindManager)
+	//Search
+	router.POST("/search", api.Search)
+	//Find a work
+	router.POST("/work/show", api.FindWork)
+	//comment
+	router.POST("/work/comment", api.Comment)
 
-	// //admin
-	// router.POST("/login", admin.Login)
-	// router.POST("/logout", admin.Logout)
-	// router.POST("/upload", admin.Upload)
-	// router.POST("/uploadEdit", admin.UploadEdit)
-	// jwt := router.Group("/admin", middleware.Jwt())
-	// {
-	// 	jwt.POST("/blogger/find", admin.FindBlogger)
-	// 	jwt.POST("/blogger/updatePassword", admin.BloggerUpdatePassword)
-	// 	jwt.POST("/blogger/updateInfo", admin.BloggerUpdateInfo)
-	// 	jwt.POST("/blog/type/list", admin.TypeList)
-	// 	jwt.POST("/blog/type/save", admin.BlogTypeSave)
-	// 	jwt.POST("/blog/type/one", admin.TypeOne)
-	// 	jwt.POST("/blog/type/delete", admin.BlogTypeDel)
-	// 	jwt.POST("/blog/type/All", admin.TypeAll)
-	// 	jwt.POST("/blog/save", admin.BlogSave)
-	// 	jwt.POST("/blog/list", admin.BlogList)
-	// 	jwt.POST("/blog/one", admin.BlogOne)
-	// 	jwt.POST("/blog/delete", admin.BlogDelete)
-	// 	jwt.POST("/comment/list", admin.CommentList)
-	// 	jwt.POST("/comment/review", admin.CommentReview)
-	// 	jwt.POST("/comment/delete", admin.CommentDelete)
-	// }
+	//member
+	router.POST("/login", api.Login)
+	router.POST("/logout", api.Logout)
+	router.POST("/member/update", api.MemberUpdateInfo)
+	//admin
+	jwt := router.Group("/admin", middleware.Jwt())
+	{
+		jwt.POST("/work/list", admin.WorkList)
+		jwt.POST("/work/one", admin.FindWorkForManage)
+		jwt.POST("/work/save", admin.WorkSave)
+		jwt.POST("/blog/delete", admin.WorkDelete)
+		jwt.POST("/comment/list", admin.CommentList)
+		jwt.POST("/comment/review", admin.CommentReview)
+		jwt.POST("/comment/delete", admin.CommentDelete)
+	}
 
 }
