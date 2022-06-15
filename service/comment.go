@@ -24,7 +24,7 @@ func (comment *Comment) FindCommentsListByWorkID(workID int) []Comment {
 	return comments
 }
 
-func (comment *Comment) FindCommentListAll(Map map[string]interface{}) []Comment {
+func (comment *Comment) FindCommentListAll() []Comment {
 	comments := make([]Comment, 0)
 	Db.Model(comment).Order("created_at asc").Find(&comments)
 	return comments
@@ -35,8 +35,9 @@ func (comment *Comment) Insert() *gorm.DB {
 	return Db.Create(comment)
 }
 
+//For review comment
 func (comment *Comment) UpdateStatus() *gorm.DB {
-	return Db.Model(comment).Where("id = ? ", comment.ID).Update("is_new", true)
+	return Db.Model(comment).Where("id = ? ", comment.ID).Update("is_new", false)
 }
 
 func (comment *Comment) DeleteComment() *gorm.DB {

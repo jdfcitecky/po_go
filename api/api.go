@@ -108,7 +108,12 @@ func Comment(c *gin.Context) {
 		res.Json(c)
 		return
 	}
-	comment.Insert()
+	result := comment.Insert()
+	if result.Error != nil {
+		res := &utils.Response{Code: 1000, Msg: "Submit error"}
+		res.Json(c)
+		return
+	}
 
 	res := &utils.Response{Code: 0, Msg: ""}
 	res.Json(c)
