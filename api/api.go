@@ -1,90 +1,115 @@
 package api
 
+import (
+	"fmt"
+	"po_go/service"
+	"po_go/utils"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
+)
+
 //find manager
-// func FindManager(c *gin.Context) {
-// 	var member service.Member
-// 	result := member.Find()
-// 	result.Password = ""
-// 	res := &utils.Response{Code: 0, Msg: "", Data: result}
-// 	res.Json(c)
-// }
+func FindManager(c *gin.Context) {
+	var member service.Member
+	result := member.Find()
+	result.Password = ""
+	res := &utils.Response{Code: 0, Msg: "", Data: result}
+	res.Json(c)
+}
 
-// //Find the comment list for a work
-// func CommentList(c *gin.Context) {
-// 	json := make(map[string]interface{})
-// 	err := c.ShouldBind(&json)
-// 	if err != nil {
-// 		res := &utils.Response{Code: 1000, Msg: "数据格式出错"}
-// 		res.Json(c)
-// 		return
-// 	}
-// 	comment := new(service.Comment)
-// 	//string to Int
-// 	page, _ := strconv.Atoi(utils.StrVal(json["page"]))
-// 	size, _ := strconv.Atoi(utils.StrVal(json["size"]))
-// 	pageVo := &utils.Page{Page: page, Size: size, Total: blog.Count()}
+//Find the comment list for a work
+func CommentListForWork(c *gin.Context) {
+	json := make(map[string]interface{})
+	err := c.ShouldBind(&json)
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
+		res.Json(c)
+		return
+	}
+	comment := new(service.Comment)
 
-// 	//get work Id
-// 	workID, err := strconv.Atoi(utils.StrVal(json["work_id"]))
-// 	if err == nil {
-// 		comment.WorkID = workID
-// 	}
-// 	//查询博客列表
-// 	result, err := comment.FindCommentListByWorkID(pageVo)
-// 	if err != nil {
-// 		res := &utils.Response{Code: 1000, Msg: err.Error()}
-// 		res.Json(c)
-// 		return
-// 	}
+	//get work Id
+	workID, err := strconv.Atoi(utils.StrVal(json["work_id"]))
+	if err == nil {
+		comment.WorkID = workID
+	}
+	//query comment list
+	result := comment.FindCommentsListByWorkID(workID)
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: err.Error()}
+		res.Json(c)
+		return
+	}
 
-// 	res := &utils.Response{Code: 0, Msg: "", Data: result, Count: pageVo.Total}
-// 	res.Json(c)
-// }
+	res := &utils.Response{Code: 0, Msg: "", Data: result}
+	res.Json(c)
+}
 
-// //查询博客
-// func FindBlog(c *gin.Context) {
-// 	var blog service.Blog
-// 	//绑定博客id值
-// 	err := c.BindJSON(&blog)
-// 	if err != nil {
-// 		res := &utils.Response{Code: 1000, Msg: "数据格式出错"}
-// 		res.Json(c)
-// 		return
-// 	}
-// 	//更新点击次数
-// 	blog.UpdateClick()
+//Find a work
+func FindWork(c *gin.Context) {
+	var work service.Work
+	var comment service.Comment
+	//bind work id
+	err := c.BindJSON(&work)
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
+		res.Json(c)
+		return
+	}
+	//update the number of click times
+	work.UpdateClick()
 
-// 	//根据博客Id查询类型名
-// 	result := blog.FindOneTypeName()
+	//find work by id
+	result := work.FindOne()
 
-// 	//上一条
-// 	last := blog.FindLastOne()
-// 	//下一条
-// 	next := blog.FindNextOne()
+	//find comment
+	comments := comment.FindCommentsListByWorkID(work.ID)
+	Map := make(map[string]interface{})
+	Map["blog"] = result
+	Map["comments"] = comments
+	res := &utils.Response{Code: 0, Msg: "", Data: Map}
+	res.Json(c)
+}
 
-// 	//查找评论
-// 	comments := blog.FindCommentByBlog()
-// 	Map := make(map[string]interface{})
-// 	Map["last"] = last
-// 	Map["next"] = next
-// 	Map["blog"] = result
-// 	Map["comments"] = comments
-// 	res := &utils.Response{Code: 0, Msg: "", Data: Map}
-// 	res.Json(c)
-// }
+//Find the work list
+func Search(c *gin.Context) {
+	json := make(map[string]interface{})
+	err := c.ShouldBind(&json)
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
+		res.Json(c)
+		return
+	}
+	work := new(service.Work)
 
-// //提交评论
-// func Comment(c *gin.Context) {
-// 	var comment service.Comment
-// 	//ID text
-// 	err := c.BindJSON(&comment)
-// 	if err != nil {
-// 		res := &utils.Response{Code: 1000, Msg: "数据格式出错"}
-// 		res.Json(c)
-// 		return
-// 	}
-// 	comment.Insert()
+	//get key word
+	keyword := fmt.Sprintf("%v", json["keyword"])
 
-// 	res := &utils.Response{Code: 0, Msg: ""}
-// 	res.Json(c)
-// }
+	//query work list
+	result := work.Search(keyword)
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: err.Error()}
+		res.Json(c)
+		return
+	}
+
+	res := &utils.Response{Code: 0, Msg: "", Data: result}
+	res.Json(c)
+}
+
+//New comment
+func Comment(c *gin.Context) {
+	var comment service.Comment
+	//ID text
+	err := c.BindJSON(&comment)
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
+		res.Json(c)
+		return
+	}
+	comment.Insert()
+
+	res := &utils.Response{Code: 0, Msg: ""}
+	res.Json(c)
+}

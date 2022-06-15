@@ -15,9 +15,9 @@ func (Comment) TableName() string {
 
 func (comment *Comment) FindCommentsListByWorkID(workID int) []Comment {
 	comments := make([]Comment, 0)
-	Db.Table("comment c").Select("c.*, m.email as email").
-		Joins("left join member m on c.member_id = m.id").
-		Where("c.is_new = true").
+	Db.Model("comment").
+		Where("work_id = ? ", workID).
+		Where("is_new = false").
 		Order("created_at asc").
 		Find(&comments)
 

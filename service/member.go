@@ -34,7 +34,7 @@ func (member *Member) Find() (m *Member) {
 	return
 }
 
-// create a manager
+// create a member
 func (member *Member) Insert() *gorm.DB {
 	return Db.Create(member)
 }

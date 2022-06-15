@@ -11,6 +11,7 @@ type Work struct {
 	Text         string    `gorm:"column:text" json:"text"`
 	Tools        string    `gorm:"column:tools" json:"tools"`
 	Year         string    `gorm:"column:year" json:"year"`
+	ClickHit     int       `gorm:"column:click_hit" json:"click_hit"`
 	Downloadlink string    `gorm:"column:downloadlink" json:"downloadlink"`
 	Pictureone   string    `gorm:"column:pictureone" json:"pictureone"`
 	Picturetwo   string    `gorm:"column:picturetwo" json:"picturetwo"`

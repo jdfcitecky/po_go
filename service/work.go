@@ -32,6 +32,11 @@ func (work *Work) Search(keyword string) []*Work {
 	return ws
 }
 
+//update click
+func (work *Work) UpdateClick() *gorm.DB {
+	return Db.Model(work).Where("id = ? ", work.ID).Update("click_hit", gorm.Expr("click_hit + ?", 1))
+}
+
 func (work *Work) Count() (count int) {
 	Db.Model(work).Count(&count)
 	return
