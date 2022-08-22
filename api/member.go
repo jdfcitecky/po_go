@@ -71,8 +71,11 @@ func Logout(c *gin.Context) {
 
 //modify member info
 func MemberUpdateInfo(c *gin.Context) {
+	logger := utils.Log()
+	logger.Info("Creat member")
 	var member service.Member
 	err := c.BindJSON(&member)
+	logger.Info(member)
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
 		res.Json(c)

@@ -100,9 +100,14 @@ func Search(c *gin.Context) {
 
 //New comment
 func Comment(c *gin.Context) {
+	logger := utils.Log()
+	logger.Info("Creat comment")
 	var comment service.Comment
 	//ID text
 	err := c.BindJSON(&comment)
+	logger.Info(err)
+	logger.Info(comment)
+	comment.IsNew = true
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
 		res.Json(c)
