@@ -50,6 +50,7 @@ func Login(c *gin.Context) {
 	// Map["member"] = result
 	Map["tokenKey"] = tokenKey
 	Map["email"] = result.Email
+	Map["memberID"] = result.ID
 	if result.IsManager == true {
 		Map["isManager"] = true
 	}

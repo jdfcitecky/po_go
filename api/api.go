@@ -115,6 +115,6 @@ func Comment(c *gin.Context) {
 		return
 	}
 
-	res := &utils.Response{Code: 0, Msg: ""}
+	res := &utils.Response{Code: 0, Msg: "successffff"}
 	res.Json(c)
 }
