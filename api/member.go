@@ -47,8 +47,12 @@ func Login(c *gin.Context) {
 	tokenKey := token.SetToken()
 	Map := make(map[string]interface{})
 	result.Password = ""
-	Map["member"] = result
+	// Map["member"] = result
 	Map["tokenKey"] = tokenKey
+	Map["email"] = result.Email
+	if result.IsManager == true {
+		Map["isManager"] = true
+	}
 	//put token into cache
 	utils.Cache.Set(tokenKey, token, cache.DefaultExpiration)
 	res := &utils.Response{Code: 0, Msg: "",

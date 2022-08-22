@@ -72,7 +72,7 @@ func WorkSave(c *gin.Context) {
 
 }
 
-//Delete error
+//Delete work
 func WorkDelete(c *gin.Context) {
 	var work service.Work
 	err := c.BindJSON(&work)
