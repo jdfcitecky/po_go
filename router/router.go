@@ -38,6 +38,8 @@ func register(router *gin.Engine) {
 	router.POST("/work/show", api.FindWork)
 	//comment
 	router.POST("/work/comment", api.Comment)
+	//comment
+	router.POST("/work/comment/list", api.CommentListForWork)
 
 	//member
 	router.POST("/login", api.Login)

@@ -13,11 +13,13 @@ func (Comment) TableName() string {
 	return "Comments"
 }
 
-func (comment *Comment) FindCommentsListByWorkID(workID int) []Comment {
+func (comment *Comment) FindCommentsListByWorkID(workID int, pageStart int, pageLimit int) []Comment {
 	comments := make([]Comment, 0)
 	Db.Model("comment").
 		Where("work_id = ? ", workID).
 		Where("is_new = false").
+		Limit(pageLimit).
+		Offset(pageStart).
 		Order("created_at asc").
 		Find(&comments)
 

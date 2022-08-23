@@ -20,36 +20,51 @@ func FindManager(c *gin.Context) {
 
 //Find the comment list for a work
 func CommentListForWork(c *gin.Context) {
+	logger := utils.Log()
+	logger.Info("Get Comments")
 	json := make(map[string]interface{})
-	err := c.ShouldBind(&json)
+	err := c.BindJSON(&json)
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
 		res.Json(c)
 		return
 	}
+	logger.Info(json)
 	comment := new(service.Comment)
 
 	//get work Id
 	workID, err := strconv.Atoi(utils.StrVal(json["work_id"]))
-	if err == nil {
-		comment.WorkID = workID
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: "Query fail", Data: ""}
+		res.Json(c)
+	}
+	pageStart, err := strconv.Atoi(utils.StrVal(json["page_start"]))
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: "Query fail", Data: ""}
+		res.Json(c)
+	}
+	pageLimit, err := strconv.Atoi(utils.StrVal(json["page_limit"]))
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: "Query fail", Data: ""}
+		res.Json(c)
 	}
 	//query comment list
-	result := comment.FindCommentsListByWorkID(workID)
+	result := comment.FindCommentsListByWorkID(workID, pageStart, pageLimit)
+	logger.Info(result)
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: err.Error()}
 		res.Json(c)
 		return
 	}
 
-	res := &utils.Response{Code: 0, Msg: "", Data: result}
+	res := &utils.Response{Code: 200, Msg: "", Data: result}
 	res.Json(c)
 }
 
 //Find a work
 func FindWork(c *gin.Context) {
 	var work service.Work
-	var comment service.Comment
+	// var comment service.Comment
 	//bind work id
 	err := c.BindJSON(&work)
 	if err != nil {
@@ -64,10 +79,10 @@ func FindWork(c *gin.Context) {
 	result := work.FindOne()
 
 	//find comment
-	comments := comment.FindCommentsListByWorkID(work.ID)
+	// comments := comment.FindCommentsListByWorkID(work.ID)
 	Map := make(map[string]interface{})
 	Map["blog"] = result
-	Map["comments"] = comments
+	// Map["comments"] = comments
 	res := &utils.Response{Code: 0, Msg: "", Data: Map}
 	res.Json(c)
 }
