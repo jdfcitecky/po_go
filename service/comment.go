@@ -26,6 +26,16 @@ func (comment *Comment) FindCommentsListByWorkID(workID int, pageStart int, page
 	return comments
 }
 
+func (comment *Comment) FindNumberOfCommentsByWorkID(workID int) int {
+	var count int
+	Db.Model(comment).
+		Where("work_id = ? ", workID).
+		Where("is_new = false").
+		Count(&count)
+
+	return count
+}
+
 func (comment *Comment) FindCommentListAll() []Comment {
 	comments := make([]Comment, 0)
 	Db.Model(comment).Order("created_at asc").Find(&comments)

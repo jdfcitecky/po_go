@@ -50,14 +50,16 @@ func CommentListForWork(c *gin.Context) {
 	}
 	//query comment list
 	result := comment.FindCommentsListByWorkID(workID, pageStart, pageLimit)
+	count := comment.FindNumberOfCommentsByWorkID(workID)
 	logger.Info(result)
+	logger.Info(count)
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: err.Error()}
 		res.Json(c)
 		return
 	}
 
-	res := &utils.Response{Code: 200, Msg: "", Data: result}
+	res := &utils.Response{Code: 200, Msg: "", Data: result, Count: count}
 	res.Json(c)
 }
 
