@@ -10,9 +10,12 @@ import (
 
 //find work list for manage panel
 func WorkList(c *gin.Context) {
+	logger := utils.Log()
+	logger.Info("List works")
 	json := make(map[string]interface{})
 	var work service.Work
 	err := c.ShouldBind(&json)
+	logger.Info(err)
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
 		res.Json(c)
