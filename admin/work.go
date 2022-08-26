@@ -45,6 +45,8 @@ func FindWorkForManage(c *gin.Context) {
 
 //Save work
 func WorkSave(c *gin.Context) {
+	logger := utils.Log()
+	logger.Info("Creat work")
 	var work service.Work
 	err := c.BindJSON(&work)
 	if err != nil {

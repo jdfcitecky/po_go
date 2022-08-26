@@ -4,6 +4,7 @@ import (
 	"fmt"
 	. "po_go/db"
 	"po_go/entity"
+	"po_go/utils"
 
 	"github.com/jinzhu/gorm"
 )
@@ -11,7 +12,7 @@ import (
 type Work entity.Work
 
 func (Work) TableName() string {
-	return "blog_type"
+	return "works"
 }
 
 func (work *Work) FindOne() (w *Work) {
@@ -43,6 +44,8 @@ func (work *Work) Count() (count int) {
 }
 
 func (work *Work) Insert() *gorm.DB {
+	logger := utils.Log()
+	logger.Info("work insert")
 	return Db.Create(work)
 }
 

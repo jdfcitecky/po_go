@@ -51,7 +51,7 @@ func register(router *gin.Engine) {
 		jwt.POST("/work/list", admin.WorkList)
 		jwt.POST("/work/one", admin.FindWorkForManage)
 		jwt.POST("/work/save", admin.WorkSave)
-		jwt.POST("/blog/delete", admin.WorkDelete)
+		jwt.POST("/work/delete", admin.WorkDelete)
 		jwt.POST("/comment/list", admin.CommentList)
 		jwt.POST("/comment/review", admin.CommentReview)
 		jwt.POST("/comment/delete", admin.CommentDelete)

@@ -19,9 +19,12 @@ func (token *TokeData) SetToken() string {
 
 func Jwt() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		logger := utils.Log()
+		logger.Info("--------------------------------in jwt")
 
 		token := c.GetHeader("token")
 		if token == "" {
+			logger.Info("--------------------------------no token")
 			res := &utils.Response{
 				Code: 1100,
 				Msg:  "Request without token",
