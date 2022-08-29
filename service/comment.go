@@ -53,5 +53,5 @@ func (comment *Comment) UpdateStatus() *gorm.DB {
 }
 
 func (comment *Comment) DeleteComment() *gorm.DB {
-	return Db.Model(comment).Delete(comment)
+	return Db.Model(comment).Delete(comment, comment.ID)
 }
