@@ -65,8 +65,9 @@ func CommentListForWork(c *gin.Context) {
 
 //Find a work
 func FindWork(c *gin.Context) {
+	logger := utils.Log()
+	logger.Info("Find work")
 	var work service.Work
-	// var comment service.Comment
 	//bind work id
 	err := c.BindJSON(&work)
 	if err != nil {
@@ -79,11 +80,10 @@ func FindWork(c *gin.Context) {
 
 	//find work by id
 	result := work.FindOne()
-
 	//find comment
 	// comments := comment.FindCommentsListByWorkID(work.ID)
 	Map := make(map[string]interface{})
-	Map["blog"] = result
+	Map["work"] = result
 	// Map["comments"] = comments
 	res := &utils.Response{Code: 0, Msg: "", Data: Map}
 	res.Json(c)
