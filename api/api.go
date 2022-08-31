@@ -5,6 +5,7 @@ import (
 	"po_go/service"
 	"po_go/utils"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -103,15 +104,21 @@ func Search(c *gin.Context) {
 	work := new(service.Work)
 
 	//get key word
-	// keyword := fmt.Sprintf("%v", json["keyWord"])
-	keyword := fmt.Sprintf("%s", json["keyWord"])
+	keywords := fmt.Sprintf("%s", json["keyWord"])
+	words := strings.Fields(keywords)
+	logger.Info("Search words", words)
+	result := make([]*service.Work, 0)
+	for _, keyword := range words {
+		//query work list
+		logger.Info("Search for", keyword)
+		resultInOne := work.Search(keyword)
+		result = append(result, resultInOne...)
 
-	//query work list
-	result := make(map[string]interface{})
-	toolsResult := work.Search(keyword)
-	categoryResult := work.SearchCategory(keyword)
-	result["workByTools"] = toolsResult
-	result["workByCategjory"] = categoryResult
+	}
+	// jsut a wrapper
+	Map := make(map[string]interface{})
+	Map["works"] = result
+	// result["works"] = resultInOne
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: err.Error()}
 		res.Json(c)

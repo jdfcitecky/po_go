@@ -26,8 +26,13 @@ func (work *Work) FindAll() []*Work {
 	Db.Model(work).Order("created_at asc").Find(&ws)
 	return ws
 }
-
 func (work *Work) Search(keyword string) []*Work {
+	ws := make([]*Work, 0)
+	Db.Model(work).Where(fmt.Sprintf(" tags like %q", ("%" + keyword + "%"))).Order("created_at asc").Find(&ws)
+	return ws
+}
+
+func (work *Work) SearchTool(keyword string) []*Work {
 	ws := make([]*Work, 0)
 	Db.Model(work).Where(fmt.Sprintf(" tools like %q", ("%" + keyword + "%"))).Order("created_at asc").Find(&ws)
 	return ws
