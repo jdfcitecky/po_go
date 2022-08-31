@@ -18,6 +18,7 @@ type Work struct {
 	Picturethree string    `gorm:"column:picturethree" json:"picturethree"`
 	Picturefour  string    `gorm:"column:picturefour" json:"picturefour"`
 	Picturefive  string    `gorm:"column:picturefive" json:"picturefive"`
+	Tags         string    `gorm:"column:tags" json:"tags"`
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`
 }
