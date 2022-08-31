@@ -32,6 +32,11 @@ func (work *Work) Search(keyword string) []*Work {
 	Db.Model(work).Where(fmt.Sprintf(" tools like %q", ("%" + keyword + "%"))).Order("created_at asc").Find(&ws)
 	return ws
 }
+func (work *Work) SearchCategory(keyword string) []*Work {
+	ws := make([]*Work, 0)
+	Db.Model(work).Where(fmt.Sprintf(" category like %q", ("%" + keyword + "%"))).Order("created_at asc").Find(&ws)
+	return ws
+}
 
 //update click
 func (work *Work) UpdateClick() *gorm.DB {

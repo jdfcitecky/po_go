@@ -91,6 +91,8 @@ func FindWork(c *gin.Context) {
 
 //Find the work list
 func Search(c *gin.Context) {
+	logger := utils.Log()
+	logger.Info("Search")
 	json := make(map[string]interface{})
 	err := c.ShouldBind(&json)
 	if err != nil {
@@ -101,10 +103,15 @@ func Search(c *gin.Context) {
 	work := new(service.Work)
 
 	//get key word
-	keyword := fmt.Sprintf("%v", json["keyword"])
+	// keyword := fmt.Sprintf("%v", json["keyWord"])
+	keyword := fmt.Sprintf("%s", json["keyWord"])
 
 	//query work list
-	result := work.Search(keyword)
+	result := make(map[string]interface{})
+	toolsResult := work.Search(keyword)
+	categoryResult := work.SearchCategory(keyword)
+	result["workByTools"] = toolsResult
+	result["workByCategjory"] = categoryResult
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: err.Error()}
 		res.Json(c)
