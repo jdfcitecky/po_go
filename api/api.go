@@ -106,11 +106,9 @@ func Search(c *gin.Context) {
 	//get key word
 	keywords := fmt.Sprintf("%s", json["keyWord"])
 	words := strings.Fields(keywords)
-	logger.Info("Search words", words)
 	result := make([]*service.Work, 0)
 	for _, keyword := range words {
 		//query work list
-		logger.Info("Search for", keyword)
 		resultInOne := work.Search(keyword)
 		result = append(result, resultInOne...)
 
