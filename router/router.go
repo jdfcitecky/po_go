@@ -48,6 +48,7 @@ func register(router *gin.Engine) {
 	//admin
 	jwt := router.Group("/admin", middleware.Jwt())
 	{
+		jwt.POST("/upload", admin.Upload)
 		jwt.POST("/work/list", admin.WorkList)
 		jwt.POST("/work/one", admin.FindWorkForManage)
 		jwt.POST("/work/save", admin.WorkSave)
