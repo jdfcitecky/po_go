@@ -10,7 +10,7 @@ import (
 type BrowseRecord entity.BrowseRecord
 
 func (BrowseRecord) TableName() string {
-	return "BrowseRecords"
+	return "browse_records"
 }
 
 func (browseRecord *BrowseRecord) FindNumberOfBrowseRecordByWorkID(workID int) int {

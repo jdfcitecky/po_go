@@ -87,6 +87,16 @@ func FindWork(c *gin.Context) {
 	Map["work"] = result
 	// Map["comments"] = comments
 	res := &utils.Response{Code: 0, Msg: "", Data: Map}
+
+	//write a record
+	workID := work.ID
+	browseRecord := service.BrowseRecord{
+		WorkID: workID,
+		IP:     "-",
+		Date:   utils.GetCurrentDate(),
+	}
+	browseRecord.Insert()
+
 	res.Json(c)
 }
 
@@ -134,8 +144,6 @@ func Comment(c *gin.Context) {
 	var comment service.Comment
 	//ID text
 	err := c.BindJSON(&comment)
-	logger.Info(err)
-	logger.Info(comment)
 	comment.IsNew = true
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
@@ -149,6 +157,18 @@ func Comment(c *gin.Context) {
 		return
 	}
 
-	res := &utils.Response{Code: 0, Msg: "successffff"}
+	res := &utils.Response{Code: 0, Msg: "success"}
+
+	//write a record
+	workID := comment.WorkID
+	memberID := comment.MemberID
+
+	commentRecord := service.CommentRecord{
+		MemberID: memberID,
+		WorkID:   workID,
+		IP:       "-",
+		Date:     utils.GetCurrentDate(),
+	}
+	commentRecord.Insert()
 	res.Json(c)
 }

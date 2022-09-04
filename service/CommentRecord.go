@@ -10,7 +10,7 @@ import (
 type CommentRecord entity.CommentRecord
 
 func (CommentRecord) TableName() string {
-	return "CommentRecords"
+	return "comment_records"
 }
 
 func (commentRecord *CommentRecord) FindNumberOfCommentRecordByWorkID(workID int) int {
