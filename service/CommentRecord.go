@@ -48,6 +48,7 @@ func (commentRecord *CommentRecord) FindNumberOfCommentRecordGroupByWorkID() []T
 		Select("work_id as work_id,COUNT(*) as count,works.title as title").
 		Group("work_id").
 		Joins("left join works on works.id = comment_records.work_id").
+		Order("count desc").
 		Find(&result)
 
 	return result
@@ -58,6 +59,7 @@ func (commentRecord *CommentRecord) FindNumberOfCommentRecordGroupByDate() []Dai
 	Db.Table("comment_records").
 		Select("date as date,COUNT(*) as count").
 		Group("date").
+		Order("date").
 		Find(&result)
 
 	return result

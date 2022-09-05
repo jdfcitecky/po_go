@@ -48,6 +48,7 @@ func (browseRecord *BrowseRecord) FindNumberOfBrowseRecordGroupByWorkID() []TopB
 		Select("work_id as work_id,COUNT(*) as count,works.title as title").
 		Group("work_id").
 		Joins("left join works on works.id = browse_records.work_id").
+		Order("count desc").
 		Scan(&result)
 
 	return result
@@ -58,6 +59,7 @@ func (browseRecord *BrowseRecord) FindNumberOfBrowseRecordGroupByDate() []DailyB
 	Db.Table("browse_records").
 		Select("date as date,COUNT(*) as count").
 		Group("date").
+		Order("date").
 		Scan(&result)
 
 	return result
