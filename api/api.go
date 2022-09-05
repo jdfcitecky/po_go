@@ -89,10 +89,11 @@ func FindWork(c *gin.Context) {
 	res := &utils.Response{Code: 0, Msg: "", Data: Map}
 
 	//write a record
+	ip := c.ClientIP()
 	workID := work.ID
 	browseRecord := service.BrowseRecord{
 		WorkID: workID,
-		IP:     "-",
+		IP:     ip,
 		Date:   utils.GetCurrentDate(),
 	}
 	browseRecord.Insert()
@@ -162,11 +163,11 @@ func Comment(c *gin.Context) {
 	//write a record
 	workID := comment.WorkID
 	memberID := comment.MemberID
-
+	ip := c.ClientIP()
 	commentRecord := service.CommentRecord{
 		MemberID: memberID,
 		WorkID:   workID,
-		IP:       "-",
+		IP:       ip,
 		Date:     utils.GetCurrentDate(),
 	}
 	commentRecord.Insert()
