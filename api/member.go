@@ -14,6 +14,8 @@ import (
 
 //sign in
 func Login(c *gin.Context) {
+	logger := utils.Log()
+	logger.Info("Login")
 	var member service.Member
 	err := c.BindJSON(&member)
 	if err != nil {
@@ -24,14 +26,14 @@ func Login(c *gin.Context) {
 
 	result := member.Login()
 
-	if result == nil {
-		res := &utils.Response{Code: 1001, Msg: "Can not find member"}
+	if result.ID == 0 {
+		res := &utils.Response{Code: 1001, Msg: "Can not find member", Data: "Can not find member"}
 		res.Json(c)
 		return
 	}
 
 	if result.Password != utils.Md5(member.Password) {
-		res := &utils.Response{Code: 1002, Msg: "Member password wrong"}
+		res := &utils.Response{Code: 1002, Msg: "Member password wrong", Data: "Member password wrong"}
 		res.Json(c)
 		return
 	}
