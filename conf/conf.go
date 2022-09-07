@@ -6,7 +6,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-//总配置文件
+//config document
 type conf struct {
 	Server server `yaml:"server"`
 	Db     db     `yaml:"db"`
