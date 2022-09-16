@@ -23,8 +23,9 @@ func (chatRoomAlias *ChatRoomAlias) FindChatRoomAliasByMemberID(memberID int) []
 }
 
 //creat chat room alias
-func (chatRoomAlias *ChatRoomAlias) Insert() *gorm.DB {
-	return Db.Create(chatRoomAlias)
+func (chatRoomAlias *ChatRoomAlias) Insert(memberID int, chatRoomID int, alias string) *gorm.DB {
+	newChatRoomAlias := ChatRoomAlias{MemberID: memberID, ChatRoomID: chatRoomID, Alias: alias}
+	return Db.Create(&newChatRoomAlias)
 }
 
 func (chatRoomAlias *ChatRoomAlias) DeleteChatRoomAlias() *gorm.DB {

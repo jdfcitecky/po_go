@@ -20,6 +20,13 @@ func (member *Member) Login() (m *Member) {
 	return
 }
 
+// create a member
+func (member *Member) FindNewMemberID() int {
+	var count int
+	Db.Model(member).Count(&count)
+	return count
+}
+
 // find a member's name
 func (member *Member) FindMemberByID(memberID int) (m *Member) {
 	m = new(Member)

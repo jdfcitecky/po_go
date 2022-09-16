@@ -22,9 +22,10 @@ func (chatRoomMember *ChatRoomMember) FindChatRoomMemberListByMemberID(chatRoomI
 	return chatRoomMembers
 }
 
-//creat message
-func (chatRoomMember *ChatRoomMember) Insert() *gorm.DB {
-	return Db.Create(chatRoomMember)
+//creat chat room member
+func (chatRoomMember *ChatRoomMember) Insert(memberID int, chatRoomID int) *gorm.DB {
+	newChatRoomMember := ChatRoomMember{MemberID: memberID, ChatRoomID: chatRoomID}
+	return Db.Create(&newChatRoomMember)
 }
 
 func (chatRoomMember *ChatRoomMember) DeleteChatRoomMember() *gorm.DB {

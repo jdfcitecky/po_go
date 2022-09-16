@@ -74,7 +74,7 @@ func Logout(c *gin.Context) {
 //modify member info
 func MemberUpdateInfo(c *gin.Context) {
 	logger := utils.Log()
-	logger.Info("Creat member")
+
 	var member service.Member
 	err := c.BindJSON(&member)
 	logger.Info(member)
@@ -88,7 +88,56 @@ func MemberUpdateInfo(c *gin.Context) {
 	}
 	var result *gorm.DB
 	if member.ID <= 0 {
+		var chatRoom service.ChatRoom
+		var chatRoomAlias service.ChatRoomAlias
+		var chatRoomMember service.ChatRoomMember
+		// Create a new chat room and the chat room id is same to member id
+		result = chatRoom.Insert()
+		if result.Error != nil {
+			res := &utils.Response{Code: 1000, Msg: "Submit error"}
+			res.Json(c)
+			return
+		}
+		newID := member.FindNewMemberID() + 1
+		// For this member can send to admin
+		result = chatRoomAlias.Insert(newID, newID, "Admin - Hsin Cho")
+		if result.Error != nil {
+			res := &utils.Response{Code: 1000, Msg: "Submit error"}
+			res.Json(c)
+			return
+		}
+
+		// For this admin can send to this member
+		result = chatRoomAlias.Insert(1, newID, member.Email)
+		if result.Error != nil {
+			res := &utils.Response{Code: 1000, Msg: "Submit error"}
+			res.Json(c)
+			return
+		}
+
+		// Put this member to the new chat room
+		result = chatRoomMember.Insert(newID, newID)
+		if result.Error != nil {
+			res := &utils.Response{Code: 1000, Msg: "Submit error"}
+			res.Json(c)
+			return
+		}
+
+		// Put admin to the new chat room
+		result = chatRoomMember.Insert(1, newID)
+		if result.Error != nil {
+			res := &utils.Response{Code: 1000, Msg: "Submit error"}
+			res.Json(c)
+			return
+		}
+
+		// create new member
 		result = member.Insert()
+		if result.Error != nil {
+			res := &utils.Response{Code: 1000, Msg: "Submit error"}
+			res.Json(c)
+			return
+		}
 	} else {
 		result = member.UpdateInfo()
 	}
