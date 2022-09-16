@@ -39,7 +39,17 @@ func init() {
 	Db.SetLogger(logger)
 	Db.LogMode(true)
 	//Auto migrate
-	Db.AutoMigrate(&entity.Blog{}, &entity.Member{}, &entity.Work{}, &entity.Comment{}, &entity.CommentRecord{}, &entity.BrowseRecord{}, &entity.Message{})
+	Db.AutoMigrate(&entity.Blog{},
+		&entity.Member{},
+		&entity.Work{},
+		&entity.Comment{},
+		&entity.CommentRecord{},
+		&entity.BrowseRecord{},
+		&entity.Message{},
+		&entity.ChatRoom{},
+		&entity.ChatRoomAlias{},
+		&entity.ChatRoomMessage{},
+		&entity.ChatRoomMember{})
 	logger.Info("mysql connect success")
 
 }
