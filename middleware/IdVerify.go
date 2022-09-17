@@ -7,24 +7,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type TokeData struct {
-	Username string
-	Password string
-	Key      string
-}
-
-func (token *TokeData) SetToken() string {
-	return utils.Md5(token.Username + token.Password + token.Key)
-}
-
-func Jwt() gin.HandlerFunc {
+func IdVerify() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		logger := utils.Log()
-		logger.Info("--------------------------------in jwt")
+		logger.Info("--------------------------------in jwt Verify")
 
 		token := c.GetHeader("token")
 		if token == "" {
-			logger.Info("--------------------------------no token")
+			logger.Info("--------------------------------no token Verify")
 			res := &utils.Response{
 				Code: 1100,
 				Msg:  "Request without token",
@@ -33,7 +23,7 @@ func Jwt() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		logger.Info("--------------------------------in jwt token ", token)
+		logger.Info("--------------------------------in idverify ", token)
 		logrus.Debug("get Token:", token)
 
 		data, found := utils.Cache.Get(token)

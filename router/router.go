@@ -3,6 +3,7 @@ package router
 import (
 	"po_go/admin"
 	"po_go/api"
+
 	"po_go/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -45,6 +46,11 @@ func register(router *gin.Engine) {
 	router.POST("/login", api.Login)
 	router.POST("/logout", api.Logout)
 	router.POST("/member/update", api.MemberUpdateInfo)
+	// chat room
+	idVerify := router.Group("/chatroom", middleware.IdVerify())
+	{
+		idVerify.POST("/list", api.ChatRoomList)
+	}
 	//admin
 	jwt := router.Group("/admin", middleware.Jwt())
 	{
@@ -57,6 +63,7 @@ func register(router *gin.Engine) {
 		jwt.POST("/comment/list", admin.CommentList)
 		jwt.POST("/comment/review", admin.CommentReview)
 		jwt.POST("/comment/delete", admin.CommentDelete)
+		// jwt.POST("/", admin.CommentDelete)
 	}
 
 }
