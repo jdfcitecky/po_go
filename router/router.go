@@ -50,6 +50,8 @@ func register(router *gin.Engine) {
 	idVerify := router.Group("/chatroom", middleware.IdVerify())
 	{
 		idVerify.POST("/list", api.ChatRoomList)
+		idVerify.POST("/message/list", api.ChatRoomMessagesList)
+		idVerify.POST("/message/save", api.ChatRoomMessagesSave)
 	}
 	//admin
 	jwt := router.Group("/admin", middleware.Jwt())
