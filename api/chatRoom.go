@@ -19,7 +19,6 @@ func ChatRoomList(c *gin.Context) {
 		res.Json(c)
 		return
 	}
-	logger.Info(json)
 	chatRoomList := new(service.ChatRoomAlias)
 
 	//get member Id
@@ -51,7 +50,6 @@ func ChatRoomMessagesList(c *gin.Context) {
 		res.Json(c)
 		return
 	}
-	logger.Info(json)
 	chatRoomMessages := new(service.ChatRoomMessage)
 
 	//get chat room Id
@@ -60,11 +58,9 @@ func ChatRoomMessagesList(c *gin.Context) {
 		res := &utils.Response{Code: 1000, Msg: "Query fail", Data: ""}
 		res.Json(c)
 	}
-	logger.Info(chatRoomID)
 
 	//query list
 	result := chatRoomMessages.FindChatRoomMessagesListByChatRoomID(chatRoomID)
-	logger.Info(result)
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: err.Error()}
 		res.Json(c)
@@ -77,7 +73,7 @@ func ChatRoomMessagesList(c *gin.Context) {
 
 func ChatRoomMessagesSave(c *gin.Context) {
 	logger := utils.Log()
-	logger.Info("SSSave Messages")
+	logger.Info("Save Messages")
 	chatRoomMessages := new(service.ChatRoomMessage)
 	err := c.BindJSON(&chatRoomMessages)
 	if err != nil {
@@ -87,7 +83,6 @@ func ChatRoomMessagesSave(c *gin.Context) {
 	}
 	//save message
 	result := chatRoomMessages.Insert()
-	logger.Info(result)
 	if err != nil {
 		res := &utils.Response{Code: 1000, Msg: err.Error()}
 		res.Json(c)

@@ -47,11 +47,13 @@ func register(router *gin.Engine) {
 	router.POST("/logout", api.Logout)
 	router.POST("/member/update", api.MemberUpdateInfo)
 	// chat room
+	router.GET("/ws/:id", api.ChatRoomSocketHandler)
 	idVerify := router.Group("/chatroom", middleware.IdVerify())
 	{
 		idVerify.POST("/list", api.ChatRoomList)
 		idVerify.POST("/message/list", api.ChatRoomMessagesList)
 		idVerify.POST("/message/save", api.ChatRoomMessagesSave)
+		// idVerify.POST("/ws/:id", api.ChatRoomSocketHandler)
 	}
 	//admin
 	jwt := router.Group("/admin", middleware.Jwt())
