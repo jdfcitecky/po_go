@@ -21,4 +21,6 @@ func init() {
 
 	pong, err := RedisClient.Ping().Result()
 	logger.Info("Redis ", pong, err)
+	// Clear the redis every time start
+	RedisClient.FlushDB()
 }
