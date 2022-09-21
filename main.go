@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"po_go/conf"
 	"po_go/db"
-	_ "po_go/redis"
+	"po_go/redis"
 	"po_go/router"
 	"po_go/utils"
 	"time"
@@ -18,6 +18,10 @@ import (
 func main() {
 
 	defer db.Db.Close()
+	defer func() {
+		redis.RedisClient.FlushDB()
+		redis.RedisClient.Close()
+	}()
 
 	//loading log
 	log := utils.Log()
