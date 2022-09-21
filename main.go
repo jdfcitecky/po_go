@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"po_go/chatroomhub"
 	"po_go/conf"
 	"po_go/db"
 	"po_go/redis"
@@ -34,6 +35,7 @@ func main() {
 		Addr:    conf.Conf.Server.Address,
 		Handler: router,
 	}
+	go chatroomhub.ListenMessageAndFoward()
 
 	go func() {
 		//start server
