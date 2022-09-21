@@ -10,7 +10,7 @@ import (
 func IdVerify() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		logger := utils.Log()
-		logger.Info("--------------------------------in jwt Verify")
+		// logger.Info("--------------------------------in jwt Verify")
 
 		token := c.GetHeader("token")
 		if token == "" {
@@ -23,7 +23,7 @@ func IdVerify() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		logger.Info("--------------------------------in idverify ", token)
+		// logger.Info("--------------------------------in idverify ", token)
 		logrus.Debug("get Token:", token)
 
 		data, found := utils.Cache.Get(token)

@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"po_go/conf"
 	"po_go/db"
+	_ "po_go/redis"
 	"po_go/router"
 	"po_go/utils"
 	"time"

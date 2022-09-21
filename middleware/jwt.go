@@ -20,7 +20,7 @@ func (token *TokeData) SetToken() string {
 func Jwt() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		logger := utils.Log()
-		logger.Info("--------------------------------in jwt")
+		// logger.Info("--------------------------------in jwt")
 
 		token := c.GetHeader("token")
 		if token == "" {
@@ -33,7 +33,7 @@ func Jwt() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		logger.Info("--------------------------------in jwt token ", token)
+		// logger.Info("--------------------------------in jwt token ", token)
 		logrus.Debug("get Token:", token)
 
 		data, found := utils.Cache.Get(token)

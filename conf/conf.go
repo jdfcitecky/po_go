@@ -8,10 +8,11 @@ import (
 
 //config document
 type conf struct {
-	Server server `yaml:"server"`
-	Db     db     `yaml:"db"`
-	MyLog  myLog  `yaml:"myLog"`
-	Cache  cache  `yaml:"cache"`
+	Server  server  `yaml:"server"`
+	Db      db      `yaml:"db"`
+	MyLog   myLog   `yaml:"myLog"`
+	Cache   cache   `yaml:"cache"`
+	Redisdb redisdb `yaml:"redisdb"`
 }
 
 type server struct {
@@ -40,6 +41,12 @@ type myLog struct {
 type cache struct {
 	Expire  int `yaml:"expire"`
 	Clearup int `yaml:"clearup"`
+}
+
+type redisdb struct {
+	Addr     string `yaml:"addr"`
+	Password string `yaml:"password"`
+	Db       int    `yaml:"db"`
 }
 
 var Conf *conf
