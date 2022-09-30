@@ -53,10 +53,10 @@ func ListenMessageAndFoward() {
 			}
 		case newMessage := <-Hub.MessageRegistChan:
 			RegistToHub(newMessage)
-			logger.Info("********************Chat room Hub registed", Hub.ChatRoomList)
+			// logger.Info("********************Chat room Hub registed", Hub.ChatRoomList)
 		case newMessage := <-Hub.MessageUnRegistChan:
 			UnRegistToHub(newMessage)
-			logger.Info("********************Chat room Hub Unregisted", Hub.ChatRoomList)
+			// logger.Info("********************Chat room Hub Unregisted", Hub.ChatRoomList)
 		}
 	}
 }
