@@ -43,7 +43,6 @@ func ListenMessageAndFoward() {
 	for {
 		select {
 		case newMessage := <-Hub.MessageComingChan:
-			logger.Info("********************Chat room Hub sending msg")
 			chatRoomList := Hub.ChatRoomList[strconv.Itoa(newMessage.ChatRoomID)].WebSocketList
 			// write the message to all socket
 			for _, ws := range chatRoomList {
@@ -53,11 +52,9 @@ func ListenMessageAndFoward() {
 				}
 			}
 		case newMessage := <-Hub.MessageRegistChan:
-			logger.Info("********************Chat room Hub registing")
 			RegistToHub(newMessage)
 			logger.Info("********************Chat room Hub registed", Hub.ChatRoomList)
 		case newMessage := <-Hub.MessageUnRegistChan:
-			logger.Info("********************Chat room Hub Unregisting")
 			UnRegistToHub(newMessage)
 			logger.Info("********************Chat room Hub Unregisted", Hub.ChatRoomList)
 		}
@@ -65,8 +62,6 @@ func ListenMessageAndFoward() {
 }
 
 func RegistToHub(defaultMessage RegistMessage) {
-	logger := utils.Log()
-	logger.Info("********************Chat room Hub registing ININININNINI")
 	chatRoomId := strconv.Itoa(defaultMessage.ChatRoomID)
 	senderId := strconv.Itoa(defaultMessage.SenderID)
 	// if the chat room has been registed
@@ -83,8 +78,6 @@ func RegistToHub(defaultMessage RegistMessage) {
 }
 
 func UnRegistToHub(defaultMessage RegistMessage) {
-	logger := utils.Log()
-	logger.Info("********************Chat room Hub Unregisting ININININNINI")
 	chatRoomId := strconv.Itoa(defaultMessage.ChatRoomID)
 	senderId := strconv.Itoa(defaultMessage.SenderID)
 	// if the chat room has been registed

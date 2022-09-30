@@ -53,26 +53,19 @@ func ChatRoomSocketHandler(c *gin.Context) {
 			panic(err)
 		}
 	}()
-	utils.Cache.Set(fmt.Sprintf("chatroom%s", c.Param("id")), "-----------------THIS IS THE DEFAULT MESSAGE-----------------", cache.DefaultExpiration)
 	//define the behavior when websocket is established
 	for {
 		chatRoomMessage := entity.ChatRoomMessage{}
 		// !!!This line has I/O reader so will stuck the for loop
-		msgType, msg, err := ws.ReadMessage()
+		_, msg, err := ws.ReadMessage()
 		if err != nil {
 			logger.Info("-----------------------In the socket read Error", err)
-			panic(err)
+			// panic(err)
+			break
 		}
-		logger.Info("-----------------------In the socket ", c.Param("id"), fmt.Sprintf("Message Type: %d, Message: %s\n", msgType, string(msg)))
+		// logger.Info("-----------------------In the socket ", c.Param("id"), fmt.Sprintf("Message Type: %d, Message: %s\n", msgType, string(msg)))
 		json.Unmarshal(msg, &chatRoomMessage)
 		chatroomhub.Hub.MessageComingChan <- chatRoomMessage
-		// msgSend := tryGetMessage(c.Param("id"))
-		// if msgSend != -1 {
-		// 	err = ws.WriteJSON(msgSend)
-		// 	if err != nil {
-		// 		panic(err)
-		// 	}
-		// }
 
 	}
 }
