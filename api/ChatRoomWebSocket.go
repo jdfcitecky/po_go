@@ -2,9 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"po_go/cache"
 	"po_go/chatroomhub"
 	"po_go/entity"
 	"po_go/utils"
@@ -20,13 +18,12 @@ type ChatRoomRegistData struct {
 
 func ChatRoomSocketHandler(c *gin.Context) {
 	logger := utils.Log()
-	logger.Info("-----------------------In the socket ", c.Param("chatroomid"))
 	var chatRoomRegistData ChatRoomRegistData
 	err := c.ShouldBindUri(&chatRoomRegistData)
-	logger.Info("-----------------------In the socket bind Regist data", chatRoomRegistData)
 	if err != nil {
 		logger.Info("-----------------------In the socket bind Error", err)
 		// panic(err)
+		c.Abort()
 	}
 	// upgrade this connection to websocket
 	upGrader := websocket.Upgrader{
@@ -39,7 +36,8 @@ func ChatRoomSocketHandler(c *gin.Context) {
 	ws, err := upGrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		logger.Info("-----------------------In the socket upgrade Error", err)
-		panic(err)
+		// panic(err)
+		c.Abort()
 	}
 	// regist this websocket to hub
 	chatroomhub.Hub.MessageRegistChan <- chatroomhub.RegistMessage{ChatRoomID: chatRoomRegistData.ChatRoomID, SenderID: chatRoomRegistData.SenderID, Websocket: ws}
@@ -47,10 +45,9 @@ func ChatRoomSocketHandler(c *gin.Context) {
 	defer func() {
 		chatroomhub.Hub.MessageUnRegistChan <- chatroomhub.RegistMessage{ChatRoomID: chatRoomRegistData.ChatRoomID, SenderID: chatRoomRegistData.SenderID, Websocket: ws}
 		closeSocketErr := ws.Close()
-		logger.Info("THE WEBSOCKET IS CLOSE")
 		if closeSocketErr != nil {
 			logger.Info("-----------------------In the socket close Error", err)
-			panic(err)
+			// panic(err)
 		}
 	}()
 	//define the behavior when websocket is established
@@ -59,7 +56,6 @@ func ChatRoomSocketHandler(c *gin.Context) {
 		// !!!This line has I/O reader so will stuck the for loop
 		_, msg, err := ws.ReadMessage()
 		if err != nil {
-			logger.Info("-----------------------In the socket read Error", err)
 			// panic(err)
 			break
 		}
@@ -68,16 +64,4 @@ func ChatRoomSocketHandler(c *gin.Context) {
 		chatroomhub.Hub.MessageComingChan <- chatRoomMessage
 
 	}
-}
-
-func setMessage(chatRoomID string, message entity.ChatRoomMessage) {
-	utils.Cache.Set(fmt.Sprintf("chatroom%s", chatRoomID), message, cache.DefaultExpiration)
-}
-
-func tryGetMessage(chatRoomID string) interface{} {
-	messages, found := utils.Cache.Get(fmt.Sprintf("chatroom%s", chatRoomID))
-	if found == false {
-		return -1
-	}
-	return messages
 }
