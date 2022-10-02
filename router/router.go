@@ -15,7 +15,7 @@ func InitRouter() *gin.Engine {
 
 	//recovery from crashing
 	router.Use(gin.Recovery())
-
+	//to storage the image as file server
 	router.Static("/static", "static")
 
 	//cross middleware
