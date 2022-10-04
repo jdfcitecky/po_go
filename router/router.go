@@ -53,6 +53,7 @@ func register(router *gin.Engine) {
 		idVerify.POST("/list", api.ChatRoomList)
 		idVerify.POST("/message/list", api.ChatRoomMessagesList)
 		idVerify.POST("/message/save", api.ChatRoomMessagesSave)
+		idVerify.POST("/message/update/read", api.ChatRoomMessagesUpdateRead)
 		// idVerify.POST("/ws/:id", api.ChatRoomSocketHandler)
 	}
 	//admin

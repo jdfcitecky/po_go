@@ -23,6 +23,10 @@ func (chatRoomMessage *ChatRoomMessage) FindChatRoomMessagesListByChatRoomID(cha
 	return chatRoomMessages
 }
 
+func (chatRoomMessage *ChatRoomMessage) UpdateMultiStatusRead() *gorm.DB {
+	return Db.Model(chatRoomMessage).Where("is_read = ? ", "false").Update("is_read", true)
+}
+
 //creat message
 func (chatRoomMessage *ChatRoomMessage) Insert() *gorm.DB {
 	return Db.Create(chatRoomMessage)

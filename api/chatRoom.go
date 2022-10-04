@@ -92,3 +92,25 @@ func ChatRoomMessagesSave(c *gin.Context) {
 	res := &utils.Response{Code: 200, Msg: "", Data: result}
 	res.Json(c)
 }
+
+func ChatRoomMessagesUpdateRead(c *gin.Context) {
+	logger := utils.Log()
+	logger.Info("Update Messages")
+	chatRoomMessages := new(service.ChatRoomMessage)
+	err := c.BindJSON(&chatRoomMessages)
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: "Data format wrong"}
+		res.Json(c)
+		return
+	}
+	//update message
+	result := chatRoomMessages.UpdateMultiStatusRead()
+	if err != nil {
+		res := &utils.Response{Code: 1000, Msg: err.Error()}
+		res.Json(c)
+		return
+	}
+
+	res := &utils.Response{Code: 200, Msg: "", Data: result}
+	res.Json(c)
+}
