@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"po_go/chatroomhub"
 	"po_go/entity"
+	"po_go/service"
 	"po_go/utils"
 
 	"github.com/gin-gonic/gin"
@@ -52,6 +53,7 @@ func ChatRoomSocketHandler(c *gin.Context) {
 	}()
 	//define the behavior when websocket is established
 	for {
+		chatRoomMessages := new(service.ChatRoomMessage)
 		chatRoomMessage := entity.ChatRoomMessage{}
 		// !!!This line has I/O reader so will stuck the for loop
 		_, msg, err := ws.ReadMessage()
@@ -60,8 +62,12 @@ func ChatRoomSocketHandler(c *gin.Context) {
 			break
 		}
 		// logger.Info("-----------------------In the socket ", c.Param("id"), fmt.Sprintf("Message Type: %d, Message: %s\n", msgType, string(msg)))
+		// this is for hub notify
 		json.Unmarshal(msg, &chatRoomMessage)
 		chatroomhub.Hub.MessageComingChan <- chatRoomMessage
+		// this is for sql insert
+		json.Unmarshal(msg, &chatRoomMessages)
+		chatRoomMessages.Insert()
 
 	}
 }
