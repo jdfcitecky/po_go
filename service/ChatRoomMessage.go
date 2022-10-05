@@ -24,7 +24,7 @@ func (chatRoomMessage *ChatRoomMessage) FindChatRoomMessagesListByChatRoomID(cha
 }
 
 func (chatRoomMessage *ChatRoomMessage) UpdateMultiStatusRead() *gorm.DB {
-	return Db.Model(chatRoomMessage).Where("is_read = ? ", "false").Update("is_read", true)
+	return Db.Model(chatRoomMessage).Where("sender_id <> ? ", chatRoomMessage.SenderID).Where("chat_room_id = ? ", chatRoomMessage.ChatRoomID).Update("is_read", true)
 }
 
 //creat message

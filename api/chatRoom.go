@@ -95,7 +95,7 @@ func ChatRoomMessagesSave(c *gin.Context) {
 
 func ChatRoomMessagesUpdateRead(c *gin.Context) {
 	logger := utils.Log()
-	logger.Info("Update Messages")
+	logger.Info("Update Messages unread")
 	chatRoomMessages := new(service.ChatRoomMessage)
 	err := c.BindJSON(&chatRoomMessages)
 	if err != nil {
