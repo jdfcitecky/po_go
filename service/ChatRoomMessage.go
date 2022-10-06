@@ -23,6 +23,19 @@ func (chatRoomMessage *ChatRoomMessage) FindChatRoomMessagesListByChatRoomID(cha
 	return chatRoomMessages
 }
 
+func (chatRoomMessage *ChatRoomMessage) FindChatRoomMessagesListByChatRoomIDWithLimit(chatRoomID int, pageStart int, pageLimit int) []ChatRoomMessage {
+	chatRoomMessages := make([]ChatRoomMessage, 0)
+	Db.Model(chatRoomMessage).
+		Where("chat_room_id =", chatRoomID).
+		Where("is_hide = false").
+		Limit(pageLimit).
+		Offset(pageStart).
+		Order("date desc").
+		Find(&chatRoomMessages)
+
+	return chatRoomMessages
+}
+
 func (chatRoomMessage *ChatRoomMessage) UpdateMultiStatusRead() *gorm.DB {
 	return Db.Model(chatRoomMessage).Where("sender_id <> ? ", chatRoomMessage.SenderID).Where("chat_room_id = ? ", chatRoomMessage.ChatRoomID).Update("is_read", true)
 }
