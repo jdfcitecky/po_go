@@ -51,7 +51,7 @@ func register(router *gin.Engine) {
 	idVerify := router.Group("/chatroom", middleware.IdVerify())
 	{
 		idVerify.POST("/list", api.ChatRoomList)
-		idVerify.POST("/message/list", api.ChatRoomMessagesList)
+		idVerify.POST("/message/list", api.ChatRoomMessagesListWithLimit)
 		idVerify.POST("/message/list/all", api.ChatRoomMessagesList)
 		idVerify.POST("/message/save", api.ChatRoomMessagesSave)
 		idVerify.POST("/message/update/read", api.ChatRoomMessagesUpdateRead)

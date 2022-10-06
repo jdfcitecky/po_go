@@ -26,12 +26,16 @@ func (chatRoomMessage *ChatRoomMessage) FindChatRoomMessagesListByChatRoomID(cha
 func (chatRoomMessage *ChatRoomMessage) FindChatRoomMessagesListByChatRoomIDWithLimit(chatRoomID int, pageStart int, pageLimit int) []ChatRoomMessage {
 	chatRoomMessages := make([]ChatRoomMessage, 0)
 	Db.Model(chatRoomMessage).
-		Where("chat_room_id =", chatRoomID).
+		Where("chat_room_id = ?", chatRoomID).
 		Where("is_hide = false").
 		Limit(pageLimit).
 		Offset(pageStart).
-		Order("date desc").
+		Order("time desc").
 		Find(&chatRoomMessages)
+	// swap to make the data sort by time asc
+	for i, j := 0, len(chatRoomMessages)-1; i < j; i, j = i+1, j-1 {
+		chatRoomMessages[i], chatRoomMessages[j] = chatRoomMessages[j], chatRoomMessages[i]
+	}
 
 	return chatRoomMessages
 }
