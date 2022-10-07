@@ -30,7 +30,7 @@ func (chatRoomMessage *ChatRoomMessage) FindChatRoomMessagesListByChatRoomIDWith
 		Where("is_hide = false").
 		Limit(pageLimit).
 		Offset(pageStart).
-		Order("time desc").
+		Order("id desc").
 		Find(&chatRoomMessages)
 	// swap to make the data sort by time asc
 	for i, j := 0, len(chatRoomMessages)-1; i < j; i, j = i+1, j-1 {
