@@ -8,7 +8,7 @@ type Work struct {
 	ID           int       `json:"id"`
 	Category     string    `gorm:"column:category" json:"category"`
 	Title        string    `gorm:"column:title" json:"title"`
-	Text         string    `gorm:"column:text" json:"text"`
+	Text         string    `gorm:"column:text;size:65535" json:"text"`
 	Tools        string    `gorm:"column:tools" json:"tools"`
 	Year         string    `gorm:"column:year" json:"year"`
 	ClickHit     int       `gorm:"column:click_hit" json:"click_hit"`
