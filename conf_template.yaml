@@ -1,0 +1,32 @@
+server:
+  address: :4000
+  #release debug
+  model: debug
+
+db:
+  dialects: mysql
+  host: 127.0.0.1
+  port: 3306
+  db: po_go
+  username: root
+  password: 1234
+  charset: utf8
+  #If a connection exceed this timem the database will be marked unavailable
+  maxIdle: 10
+  #MaxOpen
+  maxOpen: 100
+
+myLog:
+  path: ./log
+  name: sys
+  #termianl console document file
+  model: console
+
+cache:
+  expire: 7200
+  clearup: 600
+
+redisdb:
+  addr: localhost:6379
+  password:
+  db: 0
