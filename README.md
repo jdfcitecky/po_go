@@ -3,6 +3,7 @@
 
 
 # below record how to run this app at linux
+
 sudo apt-get install docker.io
 
 sudo docker pull mysql:latest
@@ -34,3 +35,11 @@ Ping
 exit
 
 exit
+
+sudo apt-get install git-all
+
+git clone https://github.com/jdfcitecky/portfolio_react_2022.git
+
+sudo docker build . -t po_react
+sudo docker run -p 3000:3000 -d po_react
+git clone https://github.com/jdfcitecky/po_go.git
