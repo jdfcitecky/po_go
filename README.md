@@ -42,4 +42,15 @@ git clone https://github.com/jdfcitecky/portfolio_react_2022.git
 
 sudo docker build . -t po_react
 sudo docker run -p 3000:3000 -d po_react
+
+
 git clone https://github.com/jdfcitecky/po_go.git
+
+mv conf_template.yaml conf.yaml
+vim conf.yaml
++ the ip dail in linux should be 172.17.0.1
+sudo docker build . -t po_go
+sudo docker run -p 4000:4000 -i -t po_go
+
+# For restart container
+sudo docker container ${container_namesudo}
