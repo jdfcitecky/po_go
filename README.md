@@ -6,6 +6,7 @@
 
 sudo apt-get install docker.io
 
+### install mysql in docker
 sudo docker pull mysql:latest
 
 sudo docker run -itd --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
@@ -22,6 +23,7 @@ exit
 
 exit
 
+### install redis in docker
 sudo docker pull redis
 
 sudo docker run --name redis-lab -p 6379:6379 -d redis
@@ -35,22 +37,23 @@ Ping
 exit
 
 exit
-
+### install git
 sudo apt-get install git-all
 
+### get frontend app
 git clone https://github.com/jdfcitecky/portfolio_react_2022.git
 
 sudo docker build . -t po_react
 sudo docker run -p 3000:3000 -d po_react
 
-
+### get backend app
 git clone https://github.com/jdfcitecky/po_go.git
 
 mv conf_template.yaml conf.yaml
 vim conf.yaml
 + the ip dail in linux should be 172.17.0.1
 sudo docker build . -t po_go
-sudo docker run -p 4000:4000 -i -t po_go
+sudo docker run -p 4000:4000 -i -t -d po_go
 
 # For restart container
 sudo docker container ${container_namesudo}
