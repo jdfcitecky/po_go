@@ -10,7 +10,7 @@ import (
 type Message entity.Message
 
 func (Message) TableName() string {
-	return "Messages"
+	return "messages"
 }
 
 func (message *Message) FindMessagesListByMemberID(memberID int) []Message {

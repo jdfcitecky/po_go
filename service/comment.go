@@ -10,7 +10,7 @@ import (
 type Comment entity.Comment
 
 func (Comment) TableName() string {
-	return "Comments"
+	return "comments"
 }
 
 func (comment *Comment) FindCommentsListByWorkID(workID int, pageStart int, pageLimit int) []Comment {
