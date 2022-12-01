@@ -57,3 +57,12 @@ sudo docker run -p 4000:4000 -i -t -d po_go
 
 # For restart container
 sudo docker container ${container_namesudo}
+
+# Create an admin
+use GUI to do this
+
+# Set database
+use po_go
+
+update members set is_manager=1 where id=1;
+delete from chat_room_aliases where id=2;
