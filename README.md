@@ -52,11 +52,12 @@ git clone https://github.com/jdfcitecky/po_go.git
 mv conf_template.yaml conf.yaml
 vim conf.yaml
 + the ip dail in linux should be 172.17.0.1
++ change the password of mysql root
 sudo docker build . -t po_go
 sudo docker run -p 4000:4000 -i -t -d po_go
 
 # For restart container
-sudo docker container ${container_namesudo}
+sudo docker container run ${container_name}
 
 # Create an admin
 use GUI to do this
@@ -66,3 +67,7 @@ use po_go
 
 update members set is_manager=1 where id=1;
 delete from chat_room_aliases where id=2;
+
+# about AWS setting
+
+get docker follow https://docs.docker.com/engine/install/ubuntu/
