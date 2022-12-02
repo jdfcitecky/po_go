@@ -43,6 +43,8 @@ sudo apt-get install git-all
 ### get frontend app
 git clone https://github.com/jdfcitecky/portfolio_react_2022.git
 
+vim .env
++ change the backend address to elastic ip
 sudo docker build . -t po_react
 sudo docker run -p 3000:3000 -d po_react
 
@@ -63,6 +65,10 @@ sudo docker container run ${container_name}
 use GUI to do this
 
 # Set database
+sudo docker exec -it mysql-test bash
+
+mysql -u root -p
+
 use po_go
 
 update members set is_manager=1 where id=1;
@@ -70,4 +76,5 @@ delete from chat_room_aliases where id=2;
 
 # about AWS setting
 
-get docker follow https://docs.docker.com/engine/install/ubuntu/
++ get docker follow https://docs.docker.com/engine/install/ubuntu/
++ t2 micro will hang at npm ci 
