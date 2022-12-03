@@ -1,8 +1,7 @@
 # Documentation
 This project is a back-end application for personal display webpage, it is recommended to be used together with the [front-end application](https://github.com/jdfcitecky/po_react). This project provides the basic mainstream functions of most websites, whether it is the basic database addition, deletion, modification and query system, membership system, display page, introduction page, comment system, background management, data chart, one-click restore, back-end file server , backend caching and even live chat rooms are fully implemented.
 
-
-
+-----------------------------------------------------
 # Below record how to run this app at linux
 
 Get docker.
@@ -78,9 +77,12 @@ use GUI to do this
 
 #### `update members set is_manager=1 where id=1;`
 #### `delete from chat_room_aliases where id=2;`
-
-# about AWS setting
+-----------------------------------------------------
+# About AWS setting
 
 + Get docker follow https://docs.docker.com/engine/install/ubuntu/
-+ For 
++ For nginx can follow https://ithelp.ithome.com.tw/articles/10221704
 + T2 micro will hang when build image of frontend app since the lack of memory
+-----------------------------------------------------
+# Known issues
++ Since this project was only developed for the desktop webpage at the beginning, even though it has been adapted for smaller screens, it still cannot display correctly on the mobile or a rather narrow window.
